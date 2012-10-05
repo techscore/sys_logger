@@ -1,0 +1,64 @@
+= sys_logger
+
+Loggerクラスと互換性を持ったSyslogモジュールラッパ。
+各インスタンス毎に任意のfacilityを設定することが出来ます。
+
+== インストール
+
+=== bundlerを利用する場合
+
+Gemfileに以下の記述を追加して、bundle install を実行してください。
+
+  gem 'sys_logger'
+
+=== bundlerを利用しない場合
+
+以下のコマンドを実行してください。
+
+  gem install sys_logger
+
+== 使用例
+
+=== 基本的な利用方法
+
+設定をしない場合facilityはSyslog.openメソッドSyslogがオープンされた際に指定された値となります。
+
+  logger = SysLogger.new
+  logger.info('INFO MESSAGE!!')
+
+=== facilityを設定する
+
+ロガーインスタンスに対してfacilityを設定することができます。
+
+  local1_logger = SysLogger.new
+  local1_logger.facility = SysLogger::LOG_LOCAL1
+  local1_logger.info('INFO MESSAGE!!')
+  
+  mail_logger = SysLogger.new
+  mail_logger.facility = SysLogger::LOG_MAIL
+  mail_logger.info('MAIL MESSAGE!!')
+
+=== プログラム名を設定する
+
+ログメッセージと一緒に記録するプログラム名を任意に設定することができます。
+この値は、Syslog.identとは関係なく、ログメッセージの前に「: 」区切りで記録されます。
+
+  logger = SysLogger.new
+  logger.progname = "logger.rb"
+  logger.info('INFO MESSAGE!!') # 例:) Jan  1 01:01:01 irb[1000]: logger.rb: INFO MESSAGE!!
+
+=== syslogの設定をする
+
+Syslogモジュールに存在するメソッドは、SysLoggerでも同じように呼び出すことが出来ます。
+内部的にはSyslogモジュールに移譲しているだけなので、どちらで呼び出しても同じです。
+
+例）ident, facility, optionsを設定する場合
+
+  # 以下の2つは同じ結果となる
+  SysLogger.reopen('foo', SysLogger::LOG_MAIL, SysLogger::LOG_PERROR || SysLogger::LOG_PID)
+  Syslog.reopen('foo', Syslog::LOG_MAIL, Syslog::LOG_PERROR || Syslog::LOG_PID)
+
+
+== Copyright
+
+Copyright (c) 2012 Synergy Marketing, Inc. See LICENSE for details.
