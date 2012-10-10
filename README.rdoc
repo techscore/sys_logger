@@ -57,7 +57,7 @@ Syslogモジュールに存在するメソッドは、SysLoggerでも同じよ�
   SysLogger.reopen('foo', SysLogger::LOG_MAIL, SysLogger::LOG_PERROR || SysLogger::LOG_PID)
   Syslog.reopen('foo', Syslog::LOG_MAIL, Syslog::LOG_PERROR || Syslog::LOG_PID)
 
-SysLoggerクラスをインスタン化した際に、Syslog.openが実行されていない場合、
+SysLoggerクラスをインスタンス化した際に、Syslog.openが実行されていない場合、
 自動的にSyslog.openメソッドが引数無しで実行されます。
 identやフラグなどのオプションを設定したい場合は、SysLoggerをインスタンス化する前に
 Syslog.openメソッドで設定するか、Syslog.reopen,Syslog.open!メソッドを利用してください。
